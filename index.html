@@ -25,7 +25,7 @@
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -257,9 +257,9 @@
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px; line-height: 1.5;
   }
   .crow .cat { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
-  .cat.supplier { color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(245,165,36,0.35); }
-  .cat.service { color: var(--teal); background: rgba(79,209,197,0.1); border: 1px solid rgba(79,209,197,0.35); }
-  .cat.dual { color: var(--pink); background: rgba(199,146,234,0.1); border: 1px solid rgba(199,146,234,0.35); }
+  .cat.construction { color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(245,165,36,0.35); }
+  .cat.telecom { color: var(--teal); background: rgba(79,209,197,0.1); border: 1px solid rgba(79,209,197,0.35); }
+  .cat.it { color: var(--pink); background: rgba(199,146,234,0.1); border: 1px solid rgba(199,146,234,0.35); }
   .crow small { color: var(--muted); width: 100%; font-size: 11.5px; }
   .score-line {
     display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px;
@@ -371,6 +371,14 @@
   .clinks { display: flex; flex-direction: column; gap: 12px; }
   .clink { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 14px; color: var(--text); text-decoration: none; }
   .clink:hover { color: var(--accent); }
+  .clink-row { display: flex; align-items: center; gap: 10px; }
+  .copybtn {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.03em;
+    color: var(--muted); background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+    border-radius: 6px; padding: 5px 10px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+  }
+  .copybtn:hover { color: var(--accent); border-color: var(--accent); }
+  .copybtn.copied { color: var(--teal); border-color: var(--teal); }
   .clink .ico {
     width: 34px; height: 34px; flex: 0 0 34px; border: 1px solid var(--line); border-radius: 8px;
     display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--accent); font-family: var(--mono);
@@ -543,27 +551,28 @@
         <h3>Vendor Relationship Analyzer</h3>
         <div class="one">Messy Excel in, sendable analysis out.</div>
         <p class="desc">
-          A company file held dozens of business partner relations in a format nobody could act on.
-          I built a Python script that reads the messy Excel, enriches each partner through web scraping,
-          and uses a free Mistral LLM running locally (Ollama) to describe and classify every relation.
+          A company file held dozens of costs and business partner relations in a format nobody could act on.
+          I built a Python script that reads the messy Excel, enriches each row through web scraping,
+          and uses a free Mistral LLM running locally (Ollama) to describe every row and classify it into
+          cost categories: construction, telecom, IT and the like.
           The result: one vendor analysis document the team could send out as-is.
         </p>
         <div class="io-wrap">
           <div class="io">
             <div class="io-in">
-              <div class="io-label"><span>input</span><span>partners.xlsx</span></div>
-              <div class="xrow a a1"><span class="cell">B0412</span> · "XXX Handels (z/o J. de Vries)" · 2019? · "levert, maar ook klant?"</div>
-              <div class="xrow a a2"><span class="cell">B0577</span> · "Techniek Groep 3 vof" · <span class="cell">—</span> · onbekend</div>
-              <div class="xrow a a3"><span class="cell">B1003</span> · "Frigo &amp; Koel BV" · 2021 · "ook installateur"</div>
-              <div class="note-line a a4">dozens of rows like this · free-text · half Dutch half English</div>
+              <div class="io-label"><span>input</span><span>messy export.xlsx</span></div>
+              <div class="xrow a a1"><span class="cell">B0412</span> · "roof repair + scaffolding, winter" · 2019? · "factuur in het Nederlands"</div>
+              <div class="xrow a a2"><span class="cell">B0577</span> · "mobile data contract ×34" · <span class="cell">€4,910</span> · jaar onbekend</div>
+              <div class="xrow a a3"><span class="cell">B1003</span> · "hosting + license renewal" · 2021 · "auto-renew?"</div>
+              <div class="note-line a a4">dozens of rows like this · free text · half Dutch half English</div>
             </div>
             <div class="io-arrow"><div class="arrow-line"></div></div>
             <div class="io-out">
               <div class="io-label"><span>output</span><span>analysis document</span></div>
-              <div class="crow a a2"><span class="cat supplier">SUPPLIER</span> De Vries Handels · since 2019 <small>described + verified via web: active company, 12 employees</small></div>
-              <div class="crow a a3"><span class="cat service">SERVICE</span> Techniek Groep 3 · was "onbekend" <small>found via web scraping: maintenance contractor, KvK verified</small></div>
-              <div class="crow a a4"><span class="cat dual">DUAL-ROLE</span> Frigo &amp; Koel · supplier + installer <small>flagged for review: sells and installs for us</small></div>
-              <div class="note-line a a5"><b>✓</b> 1 described + classified partner per row · ready to send</div>
+              <div class="crow a a2"><span class="cat construction">CONSTRUCTION</span> roof repair + scaffolding <small>→ construction costs · supplier verified via web</small></div>
+              <div class="crow a a3"><span class="cat telecom">TELECOM</span> mobile data contract ×34 <small>→ telecom costs · contract period normalized</small></div>
+              <div class="crow a a4"><span class="cat it">IT</span> hosting + license renewal <small>→ IT costs · flagged as recurring spend</small></div>
+              <div class="note-line a a5"><b>✓</b> 1 described + classified row per row · every row gets a cost category</div>
             </div>
           </div>
         </div>
@@ -571,7 +580,7 @@
           <span class="tag">Python</span><span class="tag">Ollama + Mistral (local)</span>
           <span class="tag">web scraping</span><span class="tag">Excel → classified report</span>
         </div>
-        <div class="foot"><span class="outcome">outcome: a classified, readable vendor report from a spreadsheet mess</span></div>
+        <div class="foot"><span class="outcome">outcome: every row described and classified into a cost category, ready to send</span></div>
         <button class="xbtn" aria-expanded="true">hide the input → output demo ▴</button>
       </div>
 
@@ -601,9 +610,9 @@
             <div class="io-arrow"><div class="arrow-line"></div></div>
             <div class="io-out">
               <div class="io-label"><span>output</span><span>top-3 of 10 → Discord</span></div>
-              <div class="score-line a a2"><span class="rank">1.</span> Innoworks · AI Engineer, Enschede <span class="vcheck">✓ live</span><span class="score">83</span></div>
-              <div class="score-line a a3"><span class="rank">2.</span> DataVisual · AI Engineer, Agents <span class="vcheck">✓ live</span><span class="score">79</span></div>
-              <div class="score-line a a4"><span class="rank">3.</span> InventIT · AI Automation Engineer <span class="vcheck">✓ live</span><span class="score">72</span></div>
+              <div class="score-line a a2"><span class="rank">1.</span> Logistics company (Twente) · AI Engineer, hybrid <span class="vcheck">✓ live</span><span class="score">83</span></div>
+              <div class="score-line a a3"><span class="rank">2.</span> Analytics firm (Utrecht) · AI Engineer, hybrid <span class="vcheck">✓ live</span><span class="score">79</span></div>
+              <div class="score-line a a4"><span class="rank">3.</span> IT services company (Eindhoven) · AI Automation Engineer <span class="vcheck">✓ live</span><span class="score">72</span></div>
               <div class="note-line a a5"><b>✓</b> ranked by fit, with links + salary notes · 100% local (Qwen 27B)</div>
             </div>
           </div>
@@ -916,7 +925,10 @@
           and I take on projects where local AI can do real work for an individual or organization.
         </p>
         <div class="clinks">
-          <a class="clink" href="mailto:efrim02@hotmail.com"><span class="ico">@</span> efrim02@hotmail.com</a>
+          <div class="clink-row">
+            <a class="clink" href="mailto:efrim02@hotmail.com"><span class="ico">@</span> efrim02@hotmail.com</a>
+            <button class="copybtn" type="button" data-copy="efrim02@hotmail.com" title="copy email address">⧉ copy</button>
+          </div>
           <a class="clink" href="tel:+31640587499"><span class="ico">#</span> +31 6 40 58 74 99</a>
           <a class="clink" href="https://linkedin.com/in/e-alan" target="_blank" rel="noopener"><span class="ico">in</span> linkedin.com/in/e-alan</a>
           <a class="clink" href="https://github.com/EA-pro" target="_blank" rel="noopener"><span class="ico">&gt;_</span> github.com/EA-pro</a>
@@ -947,6 +959,27 @@
     progress.style.width = pct + '%';
   }, { passive: true });
 
+  // ---------- copy email ----------
+  document.querySelectorAll('.copybtn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy;
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; }
+      catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+        ta.remove();
+      }
+      if (!ok) { location.href = 'mailto:' + text; return; }
+      const old = btn.textContent;
+      btn.textContent = '✓ copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = old; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+
   // ---------- hero glow follows mouse ----------
   const hero = document.getElementById('hero');
   const glow = document.getElementById('heroglow');
@@ -965,9 +998,9 @@
       ['ok', '✓ top-10 → Discord · 0 data left this machine'],
     ],
     [
-      ['p', '$ vendor-analysis partners.xlsx'],
-      ['mut', '→ 40+ partners · enriched via web scraping'],
-      ['mut', '→ described + classified by Mistral (Ollama)'],
+      ['p', '$ vendor-analysis export.xlsx'],
+      ['mut', '→ 40+ rows · enriched via web scraping'],
+      ['mut', '→ described + tagged with cost category by Mistral (Ollama)'],
       ['ok', '✓ analysis document ready to send'],
     ],
     [
