@@ -426,6 +426,11 @@
     .io .a { opacity: 1; transform: none; }
   }
 </style>
+<noscript>
+  <style>
+    .reveal { opacity: 1; transform: none; }
+  </style>
+</noscript>
 </head>
 <body>
 
@@ -469,10 +474,10 @@
         </div>
         <p class="cta-alt">or <a href="https://linkedin.com/in/e-alan" target="_blank" rel="noopener">connect on LinkedIn ↗</a></p>
         <div class="stats">
-          <div class="stat"><b class="count" data-target="8">0</b><span>systems shipped</span></div>
-          <div class="stat"><b class="count" data-target="2">0</b><span>games built</span></div>
-          <div class="stat"><b class="count" data-target="3">0</b><span>languages, fluent</span></div>
-          <div class="stat"><b class="count" data-target="100" data-suffix="%">0%</b><span>local-first AI</span></div>
+          <div class="stat"><b class="count" data-target="8">8</b><span>systems shipped</span></div>
+          <div class="stat"><b class="count" data-target="2">2</b><span>games built</span></div>
+          <div class="stat"><b class="count" data-target="3">3</b><span>languages, fluent</span></div>
+          <div class="stat"><b class="count" data-target="100" data-suffix="%">100%</b><span>local-first AI</span></div>
         </div>
       </div>
       <div class="term" aria-label="animated terminal demo">
@@ -1084,6 +1089,7 @@
     const target = parseInt(el.dataset.target, 10);
     const suffix = el.dataset.suffix || '';
     if (reduced) { el.textContent = target + suffix; return; }
+    el.textContent = '0' + suffix;
     const start = performance.now();
     const dur = 1200;
     (function step(now) {
