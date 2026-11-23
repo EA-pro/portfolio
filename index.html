@@ -112,6 +112,9 @@
   }
   .chip b { color: var(--teal); font-weight: 600; }
   .ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .cta-alt { margin-top: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+  .cta-alt a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  .cta-alt a:hover { color: var(--accent); border-bottom-color: var(--accent); }
   .btn {
     display: inline-block; font-family: var(--mono); font-size: 14px; font-weight: 600;
     padding: 13px 26px; border-radius: 8px; text-decoration: none; letter-spacing: 0.02em;
@@ -457,6 +460,7 @@
           <a class="btn btn-primary" href="#projects">See it in action</a>
           <a class="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
+        <p class="cta-alt">or <a href="https://linkedin.com/in/e-alan" target="_blank" rel="noopener">connect on LinkedIn ↗</a></p>
         <div class="stats">
           <div class="stat"><b class="count" data-target="8">0</b><span>systems shipped</span></div>
           <div class="stat"><b class="count" data-target="2">0</b><span>games built</span></div>
