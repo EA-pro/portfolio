@@ -62,6 +62,20 @@
     outline-offset: 3px;
     border-radius: 2px;
   }
+  .skip-link {
+    position: fixed;
+    top: -56px;
+    left: 12px;
+    z-index: 40;
+    padding: 10px 16px;
+    background: var(--accent);
+    color: #0f1216;
+    font: 600 14px var(--mono);
+    text-decoration: none;
+    border-radius: 0 0 6px 6px;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 0; }
 
   /* ---------- progress bar ---------- */
   .progress {
@@ -435,6 +449,8 @@
 </noscript>
 </head>
 <body>
+
+<a class="skip-link" href="#top">Skip to content</a>
 
 <div class="progress" id="progress"></div>
 
